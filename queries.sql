@@ -45,7 +45,7 @@ FROM `dtc-w3-homework.yellow_tripdata.yellow_taxi_materialized`;
 -- ============================================
 -- How many records have a fare_amount of 0?
 SELECT COUNT(*) AS zero_fare_trips
-FROM `your-project.your_dataset.yellow_taxi_materialized`
+FROM `dtc-w3-homework.yellow_tripdata.yellow_taxi_materialized`
 WHERE fare_amount = 0;
 -- Answer: 128,210
 
@@ -63,7 +63,7 @@ WHERE fare_amount = 0;
 -- ============================================
 -- Query on non-partitioned table
 SELECT DISTINCT VendorID
-FROM `your-project.your_dataset.yellow_taxi_materialized`
+FROM `dtc-w3-homework.yellow_tripdata.yellow_taxi_materialized`
 WHERE tpep_dropoff_datetime BETWEEN '2024-03-01' AND '2024-03-15';
 -- Estimated bytes: 310.24 MB
 
@@ -119,7 +119,7 @@ WHERE table_id IN ('yellow_taxi_external', 'yellow_taxi_materialized', 'yellow_t
 
 -- Sample data from materialized table
 SELECT *
-FROM `your-project.your_dataset.yellow_taxi_materialized`
+FROM `dtc-w3-homework.yellow_tripdata.yellow_taxi_materialized`
 LIMIT 10;
 
 -- Check partition information
