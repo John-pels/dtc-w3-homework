@@ -9,7 +9,7 @@ from google.cloud import storage
 from datetime import datetime
 
 # Configuration
-BUCKET_NAME = "your-bucket-name"  # Replace with your GCS bucket name
+BUCKET_NAME = "w3-dtc-bck"  # Replace with your GCS bucket name
 PROJECT_ID = "dtc-w3-homework"    # Replace with your GCP project ID
 LOCAL_DOWNLOAD_PATH = "./data"    # Local directory to temporarily store files
 

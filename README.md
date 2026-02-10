@@ -18,7 +18,7 @@ Upload the 6 parquet files (January - June 2024) to your GCS bucket using the pr
 CREATE OR REPLACE EXTERNAL TABLE `dtc-w3-homework.yellow_tripdata.yellow_taxi_external`
 OPTIONS (
   format = 'PARQUET',
-  uris = ['gs://your-bucket-name/yellow_tripdata_2024-*.parquet']
+  uris = ['gs://w3-dtc-bck/yellow_tripdata_2024-*.parquet']
 );
 ```
 
