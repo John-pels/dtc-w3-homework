@@ -1,12 +1,12 @@
 -- Module 3 Homework: All SQL Queries
--- Replace 'your-project' and 'your_dataset' with your actual values
+-- Project: dtc-w3-homework | Dataset: yellow_tripdata
 
 -- ============================================
 -- Question 1: Counting Records
 -- ============================================
 -- What is count of records for the 2024 Yellow Taxi Data?
 SELECT COUNT(*) AS total_records
-FROM `your-project.your_dataset.yellow_taxi_materialized`;
+FROM `dtc-w3-homework.yellow_tripdata.yellow_taxi_materialized`;
 -- Answer: 20,332,093
 
 
@@ -15,12 +15,12 @@ FROM `your-project.your_dataset.yellow_taxi_materialized`;
 -- ============================================
 -- Count distinct PULocationIDs on External Table
 SELECT COUNT(DISTINCT PULocationID) AS distinct_pu_locations
-FROM `your-project.your_dataset.yellow_taxi_external`;
+FROM `dtc-w3-homework.yellow_tripdata.yellow_taxi_external`;
 -- Estimated bytes: 0 MB (external table)
 
 -- Count distinct PULocationIDs on Materialized Table
 SELECT COUNT(DISTINCT PULocationID) AS distinct_pu_locations
-FROM `your-project.your_dataset.yellow_taxi_materialized`;
+FROM `dtc-w3-homework.yellow_tripdata.yellow_taxi_materialized`;
 -- Estimated bytes: 155.12 MB (materialized table)
 -- Answer: 0 MB for the External Table and 155.12 MB for the Materialized Table
 
@@ -30,12 +30,12 @@ FROM `your-project.your_dataset.yellow_taxi_materialized`;
 -- ============================================
 -- Query 1: Single column
 SELECT PULocationID 
-FROM `your-project.your_dataset.yellow_taxi_materialized`;
+FROM `dtc-w3-homework.yellow_tripdata.yellow_taxi_materialized`;
 -- Estimated bytes: ~77 MB
 
 -- Query 2: Two columns
 SELECT PULocationID, DOLocationID 
-FROM `your-project.your_dataset.yellow_taxi_materialized`;
+FROM `dtc-w3-homework.yellow_tripdata.yellow_taxi_materialized`;
 -- Estimated bytes: ~155 MB (approximately double)
 -- Answer: BigQuery is columnar, so it only scans requested columns
 
@@ -69,7 +69,7 @@ WHERE tpep_dropoff_datetime BETWEEN '2024-03-01' AND '2024-03-15';
 
 -- Query on partitioned table
 SELECT DISTINCT VendorID
-FROM `your-project.your_dataset.yellow_taxi_partitioned_clustered`
+FROM `dtc-w3-homework.yellow_tripdata.yellow_taxi_partitioned_clustered`
 WHERE tpep_dropoff_datetime BETWEEN '2024-03-01' AND '2024-03-15';
 -- Estimated bytes: 26.84 MB
 -- Answer: 310.24 MB for non-partitioned table and 26.84 MB for the partitioned table
@@ -95,7 +95,7 @@ WHERE tpep_dropoff_datetime BETWEEN '2024-03-01' AND '2024-03-15';
 -- ============================================
 -- SELECT count(*) from materialized table
 SELECT COUNT(*) 
-FROM `your-project.your_dataset.yellow_taxi_materialized`;
+FROM `dtc-w3-homework.yellow_tripdata.yellow_taxi_materialized`;
 -- Estimated bytes: 0 MB
 -- Explanation: BigQuery uses metadata to return count without scanning data
 
@@ -106,7 +106,7 @@ FROM `your-project.your_dataset.yellow_taxi_materialized`;
 
 -- View table schema
 SELECT column_name, data_type
-FROM `your-project.your_dataset.INFORMATION_SCHEMA.COLUMNS`
+FROM `dtc-w3-homework.yellow_tripdata.INFORMATION_SCHEMA.COLUMNS`
 WHERE table_name = 'yellow_taxi_materialized';
 
 -- Check table size
@@ -114,7 +114,7 @@ SELECT
   table_name,
   ROUND(size_bytes/POW(10,9), 2) AS size_gb,
   row_count
-FROM `your-project.your_dataset.__TABLES__`
+FROM `dtc-w3-homework.yellow_tripdata.__TABLES__`
 WHERE table_id IN ('yellow_taxi_external', 'yellow_taxi_materialized', 'yellow_taxi_partitioned_clustered');
 
 -- Sample data from materialized table
@@ -127,6 +127,6 @@ SELECT
   partition_id,
   total_rows,
   ROUND(total_logical_bytes/POW(10,6), 2) AS size_mb
-FROM `your-project.your_dataset.INFORMATION_SCHEMA.PARTITIONS`
+FROM `dtc-w3-homework.yellow_tripdata.INFORMATION_SCHEMA.PARTITIONS`
 WHERE table_name = 'yellow_taxi_partitioned_clustered'
 ORDER BY partition_id;

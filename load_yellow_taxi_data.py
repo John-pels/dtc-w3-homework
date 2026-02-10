@@ -10,7 +10,7 @@ from datetime import datetime
 
 # Configuration
 BUCKET_NAME = "your-bucket-name"  # Replace with your GCS bucket name
-PROJECT_ID = "your-project-id"    # Replace with your GCP project ID
+PROJECT_ID = "dtc-w3-homework"    # Replace with your GCP project ID
 LOCAL_DOWNLOAD_PATH = "./data"    # Local directory to temporarily store files
 
 # NYC Taxi Data URLs for January - June 2024

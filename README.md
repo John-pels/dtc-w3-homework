@@ -15,7 +15,7 @@ Upload the 6 parquet files (January - June 2024) to your GCS bucket using the pr
 
 ### 2. Create External Table
 ```sql
-CREATE OR REPLACE EXTERNAL TABLE `your-project.your_dataset.yellow_taxi_external`
+CREATE OR REPLACE EXTERNAL TABLE `dtc-w3-homework.yellow_tripdata.yellow_taxi_external`
 OPTIONS (
   format = 'PARQUET',
   uris = ['gs://your-bucket-name/yellow_tripdata_2024-*.parquet']
@@ -24,8 +24,8 @@ OPTIONS (
 
 ### 3. Create Materialized Table
 ```sql
-CREATE OR REPLACE TABLE `your-project.your_dataset.yellow_taxi_materialized` AS
-SELECT * FROM `your-project.your_dataset.yellow_taxi_external`;
+CREATE OR REPLACE TABLE `dtc-w3-homework.yellow_tripdata.yellow_taxi_materialized` AS
+SELECT * FROM `dtc-w3-homework.yellow_tripdata.yellow_taxi_external`;
 ```
 
 ---
@@ -38,7 +38,7 @@ SELECT * FROM `your-project.your_dataset.yellow_taxi_external`;
 **SQL Query**:
 ```sql
 SELECT COUNT(*) AS total_records
-FROM `your-project.your_dataset.yellow_taxi_materialized`;
+FROM `dtc-w3-homework.yellow_tripdata.yellow_taxi_materialized`;
 ```
 
 **Answer**: **20,332,093**
@@ -52,11 +52,11 @@ FROM `your-project.your_dataset.yellow_taxi_materialized`;
 ```sql
 -- External Table
 SELECT COUNT(DISTINCT PULocationID) 
-FROM `your-project.your_dataset.yellow_taxi_external`;
+FROM `dtc-w3-homework.yellow_tripdata.yellow_taxi_external`;
 
 -- Materialized Table
 SELECT COUNT(DISTINCT PULocationID) 
-FROM `your-project.your_dataset.yellow_taxi_materialized`;
+FROM `dtc-w3-homework.yellow_tripdata.yellow_taxi_materialized`;
 ```
 
 **Answer**: **0 MB for the External Table and 155.12 MB for the Materialized Table**
@@ -74,11 +74,11 @@ FROM `your-project.your_dataset.yellow_taxi_materialized`;
 ```sql
 -- Query 1: Single column
 SELECT PULocationID 
-FROM `your-project.your_dataset.yellow_taxi_materialized`;
+FROM `dtc-w3-homework.yellow_tripdata.yellow_taxi_materialized`;
 
 -- Query 2: Two columns
 SELECT PULocationID, DOLocationID 
-FROM `your-project.your_dataset.yellow_taxi_materialized`;
+FROM `dtc-w3-homework.yellow_tripdata.yellow_taxi_materialized`;
 ```
 
 **Answer**: **BigQuery is a columnar database, and it only scans the specific columns requested in the query. Querying two columns (PULocationID, DOLocationID) requires reading more data than querying one column (PULocationID), leading to a higher estimated number of bytes processed.**
@@ -94,7 +94,7 @@ BigQuery stores data in a columnar format, meaning each column is stored separat
 **SQL Query**:
 ```sql
 SELECT COUNT(*) AS zero_fare_trips
-FROM `your-project.your_dataset.yellow_taxi_materialized`
+FROM `dtc-w3-homework.yellow_tripdata.yellow_taxi_materialized`
 WHERE fare_amount = 0;
 ```
 
@@ -107,10 +107,10 @@ WHERE fare_amount = 0;
 
 **SQL Query**:
 ```sql
-CREATE OR REPLACE TABLE `your-project.your_dataset.yellow_taxi_partitioned_clustered`
+CREATE OR REPLACE TABLE `dtc-w3-homework.yellow_tripdata.yellow_taxi_partitioned_clustered`
 PARTITION BY DATE(tpep_dropoff_datetime)
 CLUSTER BY VendorID AS
-SELECT * FROM `your-project.your_dataset.yellow_taxi_materialized`;
+SELECT * FROM `dtc-w3-homework.yellow_tripdata.yellow_taxi_materialized`;
 ```
 
 **Answer**: **Partition by tpep_dropoff_datetime and Cluster on VendorID**
@@ -130,12 +130,12 @@ SELECT * FROM `your-project.your_dataset.yellow_taxi_materialized`;
 ```sql
 -- Non-partitioned table
 SELECT DISTINCT VendorID
-FROM `your-project.your_dataset.yellow_taxi_materialized`
+FROM `dtc-w3-homework.yellow_tripdata.yellow_taxi_materialized`
 WHERE tpep_dropoff_datetime BETWEEN '2024-03-01' AND '2024-03-15';
 
 -- Partitioned table
 SELECT DISTINCT VendorID
-FROM `your-project.your_dataset.yellow_taxi_partitioned_clustered`
+FROM `dtc-w3-homework.yellow_tripdata.yellow_taxi_partitioned_clustered`
 WHERE tpep_dropoff_datetime BETWEEN '2024-03-01' AND '2024-03-15';
 ```
 
@@ -180,7 +180,7 @@ Clustering adds overhead to data ingestion and may not provide benefits for all 
 **SQL Query**:
 ```sql
 SELECT COUNT(*) 
-FROM `your-project.your_dataset.yellow_taxi_materialized`;
+FROM `dtc-w3-homework.yellow_tripdata.yellow_taxi_materialized`;
 ```
 
 **Answer**: **0 MB**
@@ -216,6 +216,6 @@ BigQuery maintains metadata statistics about tables, including the total row cou
 
 ## Notes
 
-- Replace `your-project`, `your_dataset`, and `your-bucket-name` with your actual GCP project ID, dataset name, and bucket name
+- Replace `your-bucket-name` with your actual GCS bucket name
 - Ensure you have proper permissions to access BigQuery and GCS
 - The estimated bytes may vary slightly depending on your exact data and BigQuery optimizations
